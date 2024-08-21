@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Item - Oda Pap</title>
+    <link rel="stylesheet" href="listing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Oda Pap Logo" class="logo">
+                <span class="logo-text">Oda Pap</span>
+            </div>
+            <div class="top-icons">
+                <button class="home-button" onclick="location.href='index.html'">Home</button>
+                <i class="fas fa-search" id="search-icon"></i>
+                <i class="fas fa-ellipsis-v" id="menu-icon"></i>
+            </div>
+        </div>
+        <div class="border-line"></div>
+        <div class="nav-bar" id="nav-bar">
+            <i class="fas fa-home" onclick="location.href='index.html'"></i>
+            <i class="fas fa-laptop" onclick="location.href='electronics.html'"></i>
+            <i class="fas fa-tshirt" onclick="location.href='fashion.html'"></i>
+            <i class="fas fa-couch" onclick="location.href='furniture.html'"></i>
+            <i class="fas fa-bell" onclick="location.href='notifications.html'" id="notification-icon"></i>
+            <i class="fas fa-shopping-cart" onclick="location.href='cart.html'" id="cart-icon"></i>
+            <i class="fas fa-user-circle" onclick="location.href='profile.html'"></i>
+        </div>
+    </header>
+
+    <main>
+        <section class="listing-form">
+            <h2>List Your Items</h2>
+            <img id="profile-pic" src="default-profile.png" alt="Profile Picture">
+
+            <div id="items-container">
+                <div class="item-listing-form">
+                    <h3>Item 1</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="item-name">Item Name</label>
+                            <input type="text" name="item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-price">Price</label>
+                            <input type="number" name="item-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-category">Category</label>
+                            <select name="item-category" required>
+                                <option value="electronics">Electronics</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="phones">Phones</option>
+                                <option value="pharmaceutical">Pharmaceutical</option>
+                                <option value="beauty">Beauty</option>
+                                <option value="kitchenware">Kitchenware</option>
+                                <option value="accessories">Accessories</option>
+                                <!-- Add more categories as needed -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-image">Upload Image</label>
+                            <input type="file" name="item-image" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-description">Description</label>
+                            <textarea name="item-description" rows="4" required></textarea>
+                        </div>
+                    </form>
+                    <hr>
+                </div>
+            </div>
+
+            <button id="add-item-button">Add Another Item</button>
+
+            <div class="form-group">
+                <button id="submit-items-button">List All Items</button>
+            </div>
+        </section>
+
+        <section class="listings">
+            <h3>Your Listings</h3>
+            <div id="listings-container"></div>
+            <button id="load-more-button">Load More</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Oda Pap. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="listing.js"></script>
+</body>
+</html>

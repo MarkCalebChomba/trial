@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Oda Pap</title>
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Oda Pap Logo" class="logo">
+                <span class="logo-text">Oda Pap</span>
+            </div>
+            <div class="top-icons">
+                <button class="home-button" onclick="location.href='index.html'">Home</button>
+                <i class="fas fa-search" id="search-icon"></i>
+                <i class="fas fa-ellipsis-v" id="menu-icon"></i>
+            </div>
+        </div>
+        <div class="border-line"></div>
+        <div class="nav-bar" id="nav-bar">
+            <button class="home-button" onclick="location.href='index.html'"><i class="fas fa-home"></i></button>
+            <button class="home-button" onclick="location.href='electronics.html'"><i class="fas fa-laptop"></i></button>
+            <button class="home-button" onclick="location.href='fashion.html'"><i class="fas fa-tshirt"></i></button>
+            <button class="home-button" onclick="location.href='furniture.html'"><i class="fas fa-couch"></i></button>
+            <button class="home-button" onclick="location.href='notification.html'"> <i class="fas fa-bell" id="notification-icon"></i></button>
+            <button class="home-button" onclick="location.href='index.html'"><i class="fas fa-shopping-cart" id="cart-icon"></i></button>
+            <button class="home-button" onclick="location.href='index.html'"><i class="fas fa-user-circle"></i></button>
+           <!-- -->
+            
+        </div>
+    </header>
+
+    <main>
+        <div class="chat-window">
+            <div id="chat-messages" class="chat-messages">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            <form id="message-form" class="message-form">
+                <input type="text" id="message-input" class="message-input" placeholder="Type a message" required>
+                <button type="submit" id="message-send-button" class="message-send-button">Send</button>
+            </form>
+        </div>
+    
+        <script type="module">
+            import { sendMessage, listenToChatMessages } from '../src/js/chat.js';
+    
+            const userId = 'example-user-id'; // Replace with the actual user ID from Firebase Auth
+            const otherUserId = 'example-other-user-id'; // Replace with the other user's ID
+    
+            // Function to display chat messages
+            const displayMessages = (messages) => {
+                const chatMessagesContainer = document.getElementById('chat-messages');
+                chatMessagesContainer.innerHTML = ''; // Clear the current messages
+    
+                messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'chat-message';
+                    messageElement.classList.add(message.senderId === userId ? 'sent' : 'received');
+                    messageElement.innerText = message.message;
+                    chatMessagesContainer.appendChild(messageElement);
+                });
+    
+                // Scroll to the latest message
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            };
+    
+            // Listen to chat messages in real-time
+            const unsubscribe = listenToChatMessages(userId, otherUserId, displayMessages);
+    
+            // Handle sending messages
+            const messageForm = document.getElementById('message-form');
+            messageForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const messageInput = document.getElementById('message-input');
+                const messageContent = messageInput.value;
+    
+                await sendMessage(userId, otherUserId, messageContent);
+                messageInput.value = ''; // Clear the input field
+            });
+    
+            // Stop listening when leaving the chat page
+            window.addEventListener('beforeunload', () => {
+                unsubscribe();
+            });
+        
+        import { db } from '../src/js/firebase.js';
+        import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "firebase/firestore";
+        import { auth } from '../src/js/firebase.js';
+        import { onAuthChange } from '../src/js/auth.js';
+
+        const chatWindow = document.getElementById('chat-window');
+        //const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+
+        // Function to display a message in the chat window
+        const displayMessage = (message) => {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'chat-message';
+            messageElement.innerText = `${message.sender}: ${message.text}`;
+            chatWindow.appendChild(messageElement);
+        };
+
+        // Listen to authentication state changes
+        onAuthChange((user) => {
+            if (user) {
+                const chatId = 'example-chat-id'; // Replace with actual chat ID logic
+
+                // Set up real-time listener for chat messages
+                const q = query(collection(db, 'Messages'), where('chatId', '==', chatId), orderBy('timestamp', 'asc'));
+                onSnapshot(q, (querySnapshot) => {
+                    chatWindow.innerHTML = ''; // Clear the current messages
+                    querySnapshot.forEach((doc) => {
+                        displayMessage(doc.data());
+                    });
+                });
+
+                // Handle message form submission
+                messageForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const messageText = messageInput.value;
+                    if (messageText.trim() !== '') {
+                        await addDoc(collection(db, 'Messages'), {
+                            chatId: chatId,
+                            sender: user.email,
+                            text: messageText,
+                            timestamp: serverTimestamp(),
+                        });
+                        messageInput.value = ''; // Clear the input field
+                    }
+                });
+            } else {
+                window.location.href = 'login.html'; // Redirect to login if not authenticated
+            }
+        });
+    </script>
+        </script>
+        <!-- /public/chat.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="../src/css/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-window" class="chat-window">
+            <!-- Messages will be dynamically inserted here -->
+        </div>
+        <form id="message-form" class="message-form">
+            <input type="text" id="message-input" class="message-input" placeholder="Type a message..." required>
+            <button type="submit" id="send-button" class="send-button">Send</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <img src="images/profile1.png" alt="User Profile" class="chat-profile-pic">
+                <span class="chat-username">John Doe</span>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="message received">
+                    <p>Hi there! How can I help you?</p>
+                    <span class="message-time">10:30 AM</span>
+                </div>
+                <div class="message sent">
+                    <p>I'm interested in the laptop you're selling.</p>
+                    <span class="message-time">10:32 AM</span>
+                </div>
+                <!-- More messages -->
+            </div>
+            <div class="chat-footer">
+                <input type="text" placeholder="Type a message" class="chat-input" id="chat-input">
+                <button class="chat-send" id="chat-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Oda Pap. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Oda Pap</title>
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Oda Pap Logo" class="logo">
+                <span class="logo-text">Oda Pap</span>
+            </div>
+            <div class="top-icons">
+                <button class="home-button" onclick="location.href='index.html'">Home</button>
+                <i class="fas fa-search" id="search-icon"></i>
+                <i class="fas fa-ellipsis-v" id="menu-icon"></i>
+            </div>
+        </div>
+        <div class="border-line"></div>
+        <div class="nav-bar" id="nav-bar">
+            <i class="fas fa-home" onclick="location.href='index.html'"></i>
+            <i class="fas fa-user-circle" onclick="location.href='profile.html'"></i>
+        </div>
+    </header>
+
+    <main>
+        <section class="checkout">
+            <h2>Checkout</h2>
+            <div class="checkout-container"></div>
+            <form class="checkout-form">
+                <div class="form-group">
+                    <label for="shipping-country">Country</label>
+                    <select id="shipping-country" name="country">
+                        <option value="kenya">Kenya</option>
+                        <option value="uganda">Uganda</option>
+                        <option value="tanzania">Tanzania</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-state">State</label>
+                    <select id="shipping-state" name="state" onchange="updateCities()">
+                        <option value="nairobi">Nairobi</option>
+                        <option value="mombasa">Mombasa</option>
+                        <option value="kisumu">Kisumu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-city">City</label>
+                    <select id="shipping-city" name="city">
+                        <!-- City options will be dynamically updated -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-address">Address</label>
+                    <input type="text" id="shipping-address" name="address" placeholder="Enter your address">
+                </div>
+                <div class="form-group">
+                    <label for="phone-number">Phone Number</label>
+                    <input type="tel" id="phone-number" name="phone" placeholder="Enter your phone number">
+                </div>
+
+                <div class="payment-options">
+                    <h3>Payment Options</h3>
+                    <button type="button" class="payment-button mpesa-button">
+                        <i class="fas fa-mobile-alt"></i> Pay with M-Pesa
+                    </button>
+                    <button type="button" class="payment-button card-button">
+                        <i class="fas fa-credit-card"></i> Pay with Card
+                    </button>
+                    <button type="button" class="payment-button other-button">
+                        <i class="fas fa-money-check-alt"></i> Other Payment Options
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Oda Pap. All Rights Reserved.</p>
+    </footer>
+    <script src="checkout.js"></script>
+</body>
+</html>

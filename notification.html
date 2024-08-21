@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications & Chat - Oda Pap</title>
+    <link rel="stylesheet" href="notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Oda Pap Logo" class="logo">
+                <span class="logo-text">Oda Pap</span>
+            </div>
+            <div class="top-icons">
+                <button class="home-button" onclick="location.href='index.html'">Home</button>
+                
+            </div>
+        </div>
+        <div class="border-line"></div>
+        <div class="nav-bar">
+            <i class="fas fa-home" onclick="location.href='index.html'"></i>
+            <i class="fas fa-bell" onclick="location.href='notification.html'"></i>
+            <i class="fas fa-user-circle" onclick="location.href='profile.html'"></i>
+        </div>
+    </header>
+
+    <main class="notifications-chat-page">
+        <section class="notifications-section">
+            <h2>Official Notifications</h2>
+            <div id="notification-list">
+                <!-- Notifications will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <section class="chat-section">
+            <h2>Chat with Sellers</h2>
+            <div class="chat-list" id="chat-list">
+                <!-- Chat list will be dynamically loaded here -->
+            </div>
+
+            <div class="chat-window" id="chat-window" style="display: none;">
+                <div class="chat-header">
+                    <h3 id="chat-with">Chat with</h3>
+                    <i class="fas fa-times close-chat" onclick="closeChatWindow()"></i>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Chat messages will be dynamically loaded here -->
+                </div>
+                <div class="chat-input">
+                    <textarea id="chat-input" placeholder="Type your message..." rows="2"></textarea>
+                    <button type="button" id="send-button" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Oda Pap. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="notification.js"></script>
+</body>
+</html>
